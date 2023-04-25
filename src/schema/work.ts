@@ -40,7 +40,7 @@ const Work = buildCollection<TWork>({
   customId: true,
   properties: {
     categoryInfo: buildProperty({
-      name: 'CategoryInfo',
+      name: '업무분야',
       dataType: 'map',
       properties: {
         categoryId: {
@@ -81,7 +81,7 @@ const Work = buildCollection<TWork>({
       },
     }),
     description: {
-      name: 'description',
+      name: '설명',
       description: '',
       validation: { required: true },
       dataType: 'array',
@@ -105,7 +105,7 @@ const Work = buildCollection<TWork>({
       }),
     },
     imagePath: buildProperty({
-      name: 'Images',
+      name: '배경이미지',
       dataType: 'string',
       description: '',
       storage: {
@@ -117,7 +117,7 @@ const Work = buildCollection<TWork>({
       },
     }),
     member: {
-      name: 'member',
+      name: '구성원',
       description: '',
       validation: { required: true },
       dataType: 'map',

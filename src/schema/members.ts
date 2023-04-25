@@ -35,7 +35,7 @@ const Members = buildCollection<TMembers>({
   customId: true,
   properties: {
     bgImagePath: buildProperty({
-      name: 'bgImagePath',
+      name: '배경이미지',
       dataType: 'string',
       description: '',
       storage: {
@@ -47,7 +47,7 @@ const Members = buildCollection<TMembers>({
       },
     }),
     businessFields: {
-      name: 'businessFields',
+      name: '업무분야',
       dataType: 'array',
       of: buildProperty({
         dataType: 'string',
@@ -55,7 +55,7 @@ const Members = buildCollection<TMembers>({
       }),
     },
     careers: {
-      name: 'careers',
+      name: '자격 및 경력',
       description: '',
       validation: { required: true },
       dataType: 'array',
@@ -78,13 +78,13 @@ const Members = buildCollection<TMembers>({
       }),
     },
     description: {
-      name: 'description',
+      name: '설명',
       description: '',
       validation: { required: true },
       dataType: 'string',
     },
     educations: {
-      name: 'educations',
+      name: '학력',
       description: '',
       validation: { required: true },
       dataType: 'array',
@@ -101,19 +101,13 @@ const Members = buildCollection<TMembers>({
       }),
     },
     email: {
-      name: 'email',
+      name: '이메일',
       description: '',
       validation: { required: true },
       dataType: 'string',
     },
-    id: {
-      name: 'id',
-      description: '',
-      validation: { required: true },
-      dataType: 'number',
-    },
     imagePath: buildProperty({
-      name: 'imagePath',
+      name: '프로필이미지',
       dataType: 'string',
       description: '',
       storage: {
@@ -124,20 +118,14 @@ const Members = buildCollection<TMembers>({
         },
       },
     }),
-    language: {
-      name: 'language',
-      description: '',
-      validation: { required: true },
-      dataType: 'string',
-    },
     name: {
-      name: 'name',
+      name: '이름',
       description: '',
       validation: { required: true },
       dataType: 'string',
     },
     position: {
-      name: 'position',
+      name: '직책',
       description: '',
       validation: { required: true },
       dataType: 'string',
