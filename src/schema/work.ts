@@ -35,7 +35,7 @@ const Work = buildCollection<TWork>({
   permissions: ({ authController }: { authController: any }) => ({
     edit: true,
     create: true,
-    delete: false,
+    delete: true,
   }),
   customId: true,
   properties: {
