@@ -1,4 +1,3 @@
-import { GoogleAuthProvider } from 'firebase/auth';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -7,10 +6,7 @@ import '@fontsource/ibm-plex-mono';
 import Logo from '../src/assets/logo.svg';
 
 import {
-  buildCollection,
   CircularProgressCenter,
-  createCMSDefaultTheme,
-  FirebaseAuthController,
   FirebaseLoginView,
   FireCMS,
   ModeControllerProvider,
@@ -18,63 +14,20 @@ import {
   Scaffold,
   SideDialogs,
   SnackbarProvider,
-  useBuildModeController,
-  useFirebaseAuthController,
-  useFirebaseStorageSource,
-  useFirestoreDataSource,
-  useInitialiseFirebase,
-  useValidateAuthenticator,
-  DrawerNavigationItem,
 } from 'firecms';
 
-import { firebaseConfig } from './api/firebase';
-import UseAuth from './hooks/useAuth';
 import Work from './schema/work';
-import { useMemo } from 'react';
 import Members from './schema/members';
-
-const DEFAULT_SIGN_IN_OPTIONS = [GoogleAuthProvider.PROVIDER_ID];
+import UseCms from './hooks/useCms';
 
 export default function App() {
-  const signInOptions = DEFAULT_SIGN_IN_OPTIONS;
-  const {
-    firebaseApp,
-    firebaseConfigLoading,
-    configError,
-    firebaseConfigError,
-  } = useInitialiseFirebase({ firebaseConfig });
+  const cms = UseCms();
 
-  const authController: FirebaseAuthController = useFirebaseAuthController({
-    firebaseApp,
-    signInOptions,
-  });
-
-  const dataSource = useFirestoreDataSource({
-    firebaseApp,
-  });
-
-  const storageSource = useFirebaseStorageSource({ firebaseApp });
-  const modeController = useBuildModeController();
-  const theme = useMemo(
-    () => createCMSDefaultTheme({ mode: modeController.mode }),
-    [modeController.mode],
-  );
-
-  const { canAccessMainView } = useValidateAuthenticator({
-    authController,
-    authentication: async ({ user }: { user: any }) => {
-      console.log('Allowing access to', user?.email);
-      return true;
-    },
-    dataSource,
-    storageSource,
-  });
-
-  if (configError) {
-    return <div> {configError} </div>;
+  if (cms.configError) {
+    return <div> {cms.configError} </div>;
   }
 
-  if (firebaseConfigError) {
+  if (cms.firebaseConfigError) {
     return (
       <div>
         It seems like the provided Firebase config is not correct. If you are
@@ -84,34 +37,34 @@ export default function App() {
     );
   }
 
-  if (firebaseConfigLoading || !firebaseApp) {
+  if (cms.firebaseConfigLoading || !cms.firebaseApp) {
     return <CircularProgressCenter />;
   }
 
   return (
     <Router>
       <SnackbarProvider>
-        <ModeControllerProvider value={modeController}>
+        <ModeControllerProvider value={cms.modeController}>
           <FireCMS
-            authController={authController}
+            authController={cms.authController}
             collections={[Work, Members]}
-            dataSource={dataSource}
-            storageSource={storageSource}
+            dataSource={cms.dataSource}
+            storageSource={cms.storageSource}
             entityLinkBuilder={({ entity }: { entity: any }) =>
-              `https://console.firebase.google.com/project/${firebaseApp.options.projectId}/firestore/data/${entity.path}/${entity.id}`
+              `https://console.firebase.google.com/project/${cms.firebaseApp.options.projectId}/firestore/data/${entity.path}/${entity.id}`
             }
           >
             {({ loading }: { loading: boolean }) => {
               let component;
               if (loading) {
                 component = <CircularProgressCenter />;
-              } else if (!canAccessMainView) {
+              } else if (!cms.canAccessMainView) {
                 component = (
                   <FirebaseLoginView
                     allowSkipLogin={false}
-                    signInOptions={signInOptions}
-                    firebaseApp={firebaseApp}
-                    authController={authController}
+                    signInOptions={cms.signInOptions}
+                    firebaseApp={cms.firebaseApp}
+                    authController={cms.authController}
                     // logo={Logo}
                   />
                 );
@@ -125,7 +78,7 @@ export default function App() {
               }
 
               return (
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={cms.theme}>
                   <CssBaseline />
                   {component}
                 </ThemeProvider>

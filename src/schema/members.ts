@@ -1,95 +1,69 @@
 import { buildCollection, buildProperty } from 'firecms';
 
-type TSubCategory = {
-  categoryId: string;
-  name: string;
-}[];
-
-type TCategoryInfo = {
-  categoryId: string;
-  name: string;
-  subCategory: TSubCategory;
-};
-
-type TDescription = {
-  key: string;
+type TEducations = {
   value: string;
 }[];
 
-type TMember = {
-  main: string[];
-  sub: string[];
-};
+type TCarrers = {
+  time: string;
+  value: string;
+}[];
 
-type TWork = {
-  categoryInfo: TCategoryInfo;
-  description: TDescription;
+type TMembers = {
+  bgImagePath: string;
+  businessFields: string[];
+  careers: TCarrers;
+  description: string;
+  educations: TEducations;
+  email: string;
+  id: string;
   imagePath: string;
-  member: TMember;
+  language: string;
+  name: string;
+  position: string;
 };
 
-const members = buildCollection<TWork>({
+const Members = buildCollection<TMembers>({
   name: 'members',
   singularName: 'members',
   path: 'members',
   permissions: ({ authController }: { authController: any }) => ({
     edit: true,
     create: true,
-    delete: false,
+    delete: true,
   }),
   customId: true,
   properties: {
-    categoryInfo: buildProperty({
-      name: 'CategoryInfo',
-      dataType: 'map',
-      properties: {
-        categoryId: {
-          name: 'categoryId',
-          description: '',
-          validation: { required: true },
-          dataType: 'string',
-        },
-        name: {
-          name: 'name',
-          description: '',
-          validation: { required: true },
-          dataType: 'string',
-        },
-        subCategory: {
-          name: 'subCategory',
-          description: '',
-          validation: { required: true },
-          dataType: 'array',
-          of: buildProperty({
-            dataType: 'map',
-            properties: {
-              categoryId: {
-                name: 'categoryId',
-                description: '',
-                validation: { required: true },
-                dataType: 'string',
-              },
-              name: {
-                name: 'name',
-                description: '',
-                validation: { required: true },
-                dataType: 'string',
-              },
-            },
-          }),
+    bgImagePath: buildProperty({
+      name: 'bgImagePath',
+      dataType: 'string',
+      description: '',
+      storage: {
+        storagePath: 'members',
+        acceptedFiles: ['members/*'],
+        metadata: {
+          cacheControl: 'max-age=1000000',
         },
       },
     }),
-    description: {
-      name: 'description',
+    businessFields: {
+      name: 'businessFields',
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'string',
+        validation: { required: true },
+      }),
+    },
+    careers: {
+      name: 'careers',
       description: '',
       validation: { required: true },
       dataType: 'array',
       of: buildProperty({
         dataType: 'map',
         properties: {
-          key: {
-            name: 'key',
+          time: {
+            name: 'time',
             description: '',
             validation: { required: true },
             dataType: 'string',
@@ -103,49 +77,72 @@ const members = buildCollection<TWork>({
         },
       }),
     },
+    description: {
+      name: 'description',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    educations: {
+      name: 'educations',
+      description: '',
+      validation: { required: true },
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'map',
+        properties: {
+          value: {
+            name: 'value',
+            description: '',
+            validation: { required: true },
+            dataType: 'string',
+          },
+        },
+      }),
+    },
+    email: {
+      name: 'email',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    id: {
+      name: 'id',
+      description: '',
+      validation: { required: true },
+      dataType: 'number',
+    },
     imagePath: buildProperty({
-      name: 'Images',
+      name: 'imagePath',
       dataType: 'string',
       description: '',
       storage: {
-        storagePath: 'work',
-        acceptedFiles: ['work/*'],
+        storagePath: 'members',
+        acceptedFiles: ['members/*'],
         metadata: {
           cacheControl: 'max-age=1000000',
         },
       },
     }),
-    member: {
-      name: 'member',
+    language: {
+      name: 'language',
       description: '',
       validation: { required: true },
-      dataType: 'map',
-      properties: {
-        main: {
-          name: 'main',
-          description: '',
-          validation: { required: true },
-          dataType: 'array',
-          of: buildProperty({
-            dataType: 'string',
-            validation: { required: true },
-            description: '',
-          }),
-        },
-        sub: {
-          name: 'sub',
-          description: '',
-          validation: { required: true },
-          dataType: 'array',
-          of: buildProperty({
-            dataType: 'string',
-            validation: { required: true },
-            description: '',
-          }),
-        },
-      },
+      dataType: 'string',
+    },
+    name: {
+      name: 'name',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    position: {
+      name: 'position',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
     },
   },
 });
 
-export default Work;
+export default Members;
