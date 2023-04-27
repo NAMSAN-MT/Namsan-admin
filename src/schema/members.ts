@@ -20,6 +20,7 @@ type TMembers = {
   imagePath: string;
   language: string;
   name: string;
+  order: number;
   position: string;
 };
 
@@ -106,6 +107,12 @@ const Members = buildCollection<TMembers>({
       validation: { required: true },
       dataType: 'string',
     },
+    id: {
+      name: '유니크아이디',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
     imagePath: buildProperty({
       name: '프로필이미지',
       dataType: 'string',
@@ -118,11 +125,23 @@ const Members = buildCollection<TMembers>({
         },
       },
     }),
+    language: {
+      name: '언어',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
     name: {
       name: '이름',
       description: '',
       validation: { required: true },
       dataType: 'string',
+    },
+    order: {
+      name: '순서',
+      description: '',
+      validation: { required: true },
+      dataType: 'number',
     },
     position: {
       name: '직책',
