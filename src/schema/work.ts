@@ -1,31 +1,17 @@
 import { buildCollection, buildProperty } from 'firecms';
 
-type TSubCategory = {
-  categoryId: string;
-  name: string;
-}[];
-
-type TCategoryInfo = {
-  categoryId: string;
-  name: string;
-  subCategory: TSubCategory;
-};
-
-type TDescription = {
-  key: string;
-  value: string;
-}[];
-
 type TMember = {
   main: string[];
   sub: string[];
 };
 
 type TWork = {
-  categoryInfo: TCategoryInfo;
-  description: TDescription;
+  categoryInfo: string[];
+  description: string[];
   imagePath: string;
   member: TMember;
+  language: string;
+  categoryId: string;
 };
 
 const Work = buildCollection<TWork>({
@@ -41,44 +27,11 @@ const Work = buildCollection<TWork>({
   properties: {
     categoryInfo: buildProperty({
       name: '업무분야',
-      dataType: 'map',
-      properties: {
-        categoryId: {
-          name: 'categoryId',
-          description: '',
-          validation: { required: true },
-          dataType: 'string',
-        },
-        name: {
-          name: 'name',
-          description: '',
-          validation: { required: true },
-          dataType: 'string',
-        },
-        subCategory: {
-          name: 'subCategory',
-          description: '',
-          validation: { required: true },
-          dataType: 'array',
-          of: buildProperty({
-            dataType: 'map',
-            properties: {
-              categoryId: {
-                name: 'categoryId',
-                description: '',
-                validation: { required: true },
-                dataType: 'string',
-              },
-              name: {
-                name: 'name',
-                description: '',
-                validation: { required: true },
-                dataType: 'string',
-              },
-            },
-          }),
-        },
-      },
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'string',
+        validation: { required: true },
+      }),
     }),
     description: {
       name: '설명',
@@ -86,22 +39,8 @@ const Work = buildCollection<TWork>({
       validation: { required: true },
       dataType: 'array',
       of: buildProperty({
-        dataType: 'map',
-        properties: {
-          key: {
-            name: 'key',
-            description: '',
-            validation: { required: true },
-            dataType: 'string',
-          },
-          val: {
-            name: 'val',
-            description: '',
-            validation: { required: true },
-            dataType: 'string',
-            markdown: true,
-          },
-        },
+        dataType: 'string',
+        validation: { required: true },
       }),
     },
     imagePath: buildProperty({
@@ -145,6 +84,18 @@ const Work = buildCollection<TWork>({
           }),
         },
       },
+    },
+    language: {
+      name: '언어',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    categoryId: {
+      name: '카테고리아이디',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
     },
   },
 });

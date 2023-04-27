@@ -19,6 +19,7 @@ import {
 import Work from './schema/work';
 import Members from './schema/members';
 import UseCms from './hooks/useCms';
+import News from './schema/news';
 
 export default function App() {
   const cms = UseCms();
@@ -47,7 +48,7 @@ export default function App() {
         <ModeControllerProvider value={cms.modeController}>
           <FireCMS
             authController={cms.authController}
-            collections={[Work, Members]}
+            collections={[Work, Members, News]}
             dataSource={cms.dataSource}
             storageSource={cms.storageSource}
             entityLinkBuilder={({ entity }: { entity: any }) =>
