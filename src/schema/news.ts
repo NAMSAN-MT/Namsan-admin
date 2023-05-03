@@ -19,7 +19,7 @@ const News = buildCollection<TNews>({
     create: true,
     delete: true,
   }),
-  customId: true,
+  customId: false,
   properties: {
     title: {
       name: '제목',

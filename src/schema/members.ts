@@ -33,19 +33,12 @@ const Members = buildCollection<TMembers>({
     create: true,
     delete: true,
   }),
-  customId: true,
+  customId: false,
   properties: {
     bgImagePath: buildProperty({
       name: '배경이미지',
       dataType: 'string',
       description: '',
-      storage: {
-        storagePath: 'members',
-        acceptedFiles: ['members/*'],
-        metadata: {
-          cacheControl: 'max-age=1000000',
-        },
-      },
     }),
     businessFields: {
       name: '업무분야',
@@ -66,7 +59,7 @@ const Members = buildCollection<TMembers>({
           time: {
             name: 'time',
             description: '',
-            validation: { required: true },
+            validation: { required: false },
             dataType: 'string',
           },
           value: {
@@ -92,6 +85,12 @@ const Members = buildCollection<TMembers>({
       of: buildProperty({
         dataType: 'map',
         properties: {
+          time: {
+            name: 'time',
+            description: '',
+            validation: { required: false },
+            dataType: 'string',
+          },
           value: {
             name: 'value',
             description: '',

@@ -23,7 +23,7 @@ const Work = buildCollection<TWork>({
     create: true,
     delete: true,
   }),
-  customId: true,
+  customId: false,
   properties: {
     categoryInfo: buildProperty({
       name: '업무분야',

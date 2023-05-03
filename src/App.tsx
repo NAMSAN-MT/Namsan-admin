@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'typeface-rubik';
 import '@fontsource/ibm-plex-mono';
-import Logo from '../src/assets/logo.svg';
+import Logo from '../src/assets/logo.png';
 
 import {
   CircularProgressCenter,
@@ -66,7 +66,8 @@ export default function App() {
                     signInOptions={cms.signInOptions}
                     firebaseApp={cms.firebaseApp}
                     authController={cms.authController}
-                    // logo={Logo}
+                    logo={Logo}
+                    title={'NAMSAN'}
                   />
                 );
               } else {
