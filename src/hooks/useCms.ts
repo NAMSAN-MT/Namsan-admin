@@ -8,9 +8,11 @@ import {
   useFirestoreDataSource,
   useInitialiseFirebase,
   useValidateAuthenticator,
+  useBrowserTitleAndIcon,
 } from 'firecms';
 import { firebaseConfig } from '../api/firebase';
 import { useMemo } from 'react';
+import favicon from '../../src/assets/favicon.png';
 
 const DEFAULT_SIGN_IN_OPTIONS = [GoogleAuthProvider.PROVIDER_ID];
 
@@ -32,6 +34,8 @@ export default function UseCms() {
     firebaseApp,
   });
 
+  useBrowserTitleAndIcon('NAMSAN', favicon);
+
   const storageSource = useFirebaseStorageSource({ firebaseApp });
   const modeController = useBuildModeController();
   const theme = useMemo(
@@ -49,6 +53,8 @@ export default function UseCms() {
     storageSource,
   });
 
+  const isDarkMode = modeController.mode === 'dark';
+
   return {
     firebaseConfigLoading,
     configError,
@@ -61,5 +67,6 @@ export default function UseCms() {
     canAccessMainView,
     firebaseApp,
     signInOptions,
+    isDarkMode,
   };
 }

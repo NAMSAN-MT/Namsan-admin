@@ -3,7 +3,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'typeface-rubik';
 import '@fontsource/ibm-plex-mono';
-import Logo from '../src/assets/logo.png';
+import LightLogo from '../src/assets/logo.png';
+import DarkLogo from '../src/assets/darkLogo.png';
 
 import {
   CircularProgressCenter,
@@ -47,6 +48,7 @@ export default function App() {
       <SnackbarProvider>
         <ModeControllerProvider value={cms.modeController}>
           <FireCMS
+            name={'NAMSAN'}
             authController={cms.authController}
             collections={[Work, Members, News]}
             dataSource={cms.dataSource}
@@ -66,13 +68,17 @@ export default function App() {
                     signInOptions={cms.signInOptions}
                     firebaseApp={cms.firebaseApp}
                     authController={cms.authController}
-                    logo={Logo}
+                    logo={cms.isDarkMode ? LightLogo : DarkLogo}
                     title={'NAMSAN'}
                   />
                 );
               } else {
                 component = (
-                  <Scaffold name={'NAMSAN'} logo={Logo} autoOpenDrawer>
+                  <Scaffold
+                    name={'NAMSAN'}
+                    logo={cms.isDarkMode ? LightLogo : DarkLogo}
+                    autoOpenDrawer
+                  >
                     <NavigationRoutes />
                     <SideDialogs />
                   </Scaffold>

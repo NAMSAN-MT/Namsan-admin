@@ -35,10 +35,29 @@ const Members = buildCollection<TMembers>({
   }),
   customId: false,
   properties: {
-    bgImagePath: buildProperty({
-      name: '배경이미지',
+    name: {
+      name: '이름',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    email: {
+      name: '이메일',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    imagePath: buildProperty({
+      name: '프로필이미지',
       dataType: 'string',
       description: '',
+      storage: {
+        storagePath: 'members',
+        acceptedFiles: ['members/*'],
+        metadata: {
+          cacheControl: 'max-age=1000000',
+        },
+      },
     }),
     businessFields: {
       name: '업무분야',
@@ -48,6 +67,12 @@ const Members = buildCollection<TMembers>({
         validation: { required: true },
       }),
     },
+
+    bgImagePath: buildProperty({
+      name: '배경이미지',
+      dataType: 'string',
+      description: '',
+    }),
     careers: {
       name: '자격 및 경력',
       description: '',
@@ -100,38 +125,14 @@ const Members = buildCollection<TMembers>({
         },
       }),
     },
-    email: {
-      name: '이메일',
-      description: '',
-      validation: { required: true },
-      dataType: 'string',
-    },
     id: {
       name: '유니크아이디',
       description: '',
       validation: { required: true },
       dataType: 'string',
     },
-    imagePath: buildProperty({
-      name: '프로필이미지',
-      dataType: 'string',
-      description: '',
-      storage: {
-        storagePath: 'members',
-        acceptedFiles: ['members/*'],
-        metadata: {
-          cacheControl: 'max-age=1000000',
-        },
-      },
-    }),
     language: {
       name: '언어',
-      description: '',
-      validation: { required: true },
-      dataType: 'string',
-    },
-    name: {
-      name: '이름',
       description: '',
       validation: { required: true },
       dataType: 'string',

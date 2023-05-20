@@ -78,6 +78,20 @@ const News = buildCollection<TNews>({
       dataType: 'string',
       markdown: true,
     },
+    order: {
+      name: '순서',
+      description: '',
+      validation: { required: true },
+      dataType: 'number',
+    },
+    memberId: {
+      name: '멤버아이디',
+      description: '',
+      path: 'members',
+      previewProperties: ['id'],
+      validation: { required: true },
+      dataType: 'reference',
+    },
   },
 });
 
