@@ -14,6 +14,7 @@ type TMembers = {
   businessFields: string[];
   careers: TCarrers;
   description: string;
+  descriptionPreview?: string;
   educations: TEducations;
   email: string;
   id: string;
@@ -35,10 +36,40 @@ const Members = buildCollection<TMembers>({
   }),
   customId: false,
   properties: {
+    id: {
+      name: '유니크아이디 (자동생성된 id와 동일하게 사용)',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    order: {
+      name: '순서',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
     name: {
       name: '이름',
       description: '',
       validation: { required: true },
+      dataType: 'string',
+    },
+    position: {
+      name: '직책',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    description: {
+      name: '설명',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
+    descriptionPreview: {
+      name: '설명 짧은버전',
+      description: '',
+      validation: { required: false },
       dataType: 'string',
     },
     email: {
@@ -47,18 +78,6 @@ const Members = buildCollection<TMembers>({
       validation: { required: true },
       dataType: 'string',
     },
-    imagePath: buildProperty({
-      name: '프로필이미지',
-      dataType: 'string',
-      description: '',
-      storage: {
-        storagePath: 'members',
-        acceptedFiles: ['members/*'],
-        metadata: {
-          cacheControl: 'max-age=1000000',
-        },
-      },
-    }),
     businessFields: {
       name: '업무분야',
       dataType: 'array',
@@ -67,7 +86,6 @@ const Members = buildCollection<TMembers>({
         validation: { required: true },
       }),
     },
-
     bgImagePath: buildProperty({
       name: '배경이미지',
       dataType: 'string',
@@ -96,12 +114,6 @@ const Members = buildCollection<TMembers>({
         },
       }),
     },
-    description: {
-      name: '설명',
-      description: '',
-      validation: { required: true },
-      dataType: 'string',
-    },
     educations: {
       name: '학력',
       description: '',
@@ -125,26 +137,54 @@ const Members = buildCollection<TMembers>({
         },
       }),
     },
-    id: {
-      name: '유니크아이디',
+    awards: {
+      name: '수상',
       description: '',
-      validation: { required: true },
-      dataType: 'string',
+      validation: { required: false },
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'map',
+        properties: {
+          time: {
+            name: 'time',
+            description: '',
+            validation: { required: false },
+            dataType: 'string',
+          },
+          value: {
+            name: 'value',
+            description: '',
+            validation: { required: true },
+            dataType: 'string',
+          },
+        },
+      }),
+    },
+    papers: {
+      name: '논문',
+      description: '',
+      validation: { required: false },
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'map',
+        properties: {
+          time: {
+            name: 'time',
+            description: '',
+            validation: { required: false },
+            dataType: 'string',
+          },
+          value: {
+            name: 'value',
+            description: '',
+            validation: { required: true },
+            dataType: 'string',
+          },
+        },
+      }),
     },
     language: {
       name: '언어',
-      description: '',
-      validation: { required: true },
-      dataType: 'string',
-    },
-    order: {
-      name: '순서',
-      description: '',
-      validation: { required: true },
-      dataType: 'number',
-    },
-    position: {
-      name: '직책',
       description: '',
       validation: { required: true },
       dataType: 'string',
