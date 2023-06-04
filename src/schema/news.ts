@@ -89,7 +89,6 @@ const News = buildCollection<TNews>({
       description: '',
       path: 'members',
       previewProperties: ['id'],
-      validation: { required: true },
       dataType: 'reference',
     },
   },
