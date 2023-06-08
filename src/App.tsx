@@ -43,6 +43,28 @@ export default function App() {
     return <CircularProgressCenter />;
   }
 
+  const handleDeployment = async () => {
+    if (confirm('배포를 하시겠습니까?')) {
+      const url = 'https://api.github.com/repos/NAMSAN-MT/Namsan/dispatches';
+      const githubPAT = import.meta.env.VITE_WEBHOOK_TOKEN;
+      try {
+        await fetch(url, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/vnd.github.v3+json',
+            Authorization: 'token ' + githubPAT,
+          },
+          body: JSON.stringify({
+            event_type: 'TRIGGER_DEPLOYMENT',
+          }),
+        });
+      } catch (error) {
+        console.error(error);
+        alert('Deploy failed');
+      }
+    }
+  };
+
   return (
     <Router>
       <SnackbarProvider>
@@ -79,6 +101,30 @@ export default function App() {
                     logo={cms.isDarkMode ? LightLogo : DarkLogo}
                     autoOpenDrawer
                   >
+                    <div
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <button
+                        style={{
+                          width: '100px',
+                          height: '40px',
+                          backgroundColor: '#0070f4',
+                          marginRight: '24px',
+                          marginTop: '10px',
+                          borderRadius: '7px',
+                          fontWeight: 'bold',
+                          padding: '10px 30px',
+                        }}
+                        onClick={handleDeployment}
+                      >
+                        Deploy
+                      </button>
+                    </div>
                     <NavigationRoutes />
                     <SideDialogs />
                   </Scaffold>
