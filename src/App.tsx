@@ -21,6 +21,7 @@ import Work from './schema/work';
 import Members from './schema/members';
 import UseCms from './hooks/useCms';
 import News from './schema/news';
+import { firebaseConfig } from './api/firebase';
 
 export default function App() {
   const cms = UseCms();
@@ -46,7 +47,7 @@ export default function App() {
   const handleDeployment = async () => {
     if (confirm('배포를 하시겠습니까?')) {
       const url = 'https://api.github.com/repos/NAMSAN-MT/Namsan/dispatches';
-      const githubPAT = import.meta.env.VITE_WEBHOOK_TOKEN;
+      const githubPAT = firebaseConfig.githubPAT;
       try {
         await fetch(url, {
           method: 'POST',
@@ -59,8 +60,8 @@ export default function App() {
           }),
         });
       } catch (error) {
-        console.error(error);
         alert('Deploy failed');
+        console.error(error);
       }
     }
   };
