@@ -11,6 +11,8 @@ export default defineConfig({
     outDir: 'public',
   },
   define: {
-    'process.env': {},
+    'process.env': {
+      VITE_WEBHOOK_TOKEN: process.env.VITE_WEBHOOK_TOKEN,
+    },
   },
 });
