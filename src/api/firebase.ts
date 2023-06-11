@@ -1,6 +1,3 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
-
 export const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
