@@ -1,3 +1,8 @@
+/* eslint-disable require-jsdoc */
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+
 export const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -13,3 +18,6 @@ export const locales = {
   'es-ES': 'Spanish (Spain)',
   'de-DE': 'German',
 };
+
+const app = firebase.initializeApp(firebaseConfig);
+export const db = firebase.firestore(app);

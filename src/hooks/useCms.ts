@@ -46,10 +46,12 @@ export default function UseCms() {
   const { canAccessMainView } = useValidateAuthenticator({
     authController,
     authentication: async ({ user }: { user: any }) => {
-      if (!user) return false;
+      if (!user)
+        throw new Error("You don't have permission to access this page.");
+
       if (user.email !== 'namsan.official@gmail.com') {
         window.alert('해당 페이지에 접근할 수 있는 권한이 없습니다.');
-        return false;
+        throw new Error("You don't have permission to access this page.");
       }
       return true;
     },

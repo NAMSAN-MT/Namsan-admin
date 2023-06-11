@@ -21,7 +21,7 @@ import Work from './schema/work';
 import Members from './schema/members';
 import UseCms from './hooks/useCms';
 import News from './schema/news';
-import { getRemoteConfig } from 'firebase/remote-config';
+import { db } from './api/firebase';
 
 export default function App() {
   const cms = UseCms();
@@ -47,8 +47,8 @@ export default function App() {
   const handleDeployment = async () => {
     if (confirm('배포를 하시겠습니까?')) {
       const url = 'https://api.github.com/repos/NAMSAN-MT/Namsan/dispatches';
-      const githubPAT = getRemoteConfig().app.options.githubPAT;
-
+      const result = await db.collection('config').get();
+      const githubPAT = result.docs[0].data().WEBHOOK_TOKEN;
       try {
         await fetch(url, {
           method: 'POST',
@@ -81,11 +81,11 @@ export default function App() {
               `https://console.firebase.google.com/project/${cms.firebaseApp.options.projectId}/firestore/data/${entity.path}/${entity.id}`
             }
           >
-            {({ loading }: { loading: boolean }) => {
+            {(props: any) => {
               let component;
-              if (loading) {
+              if (props.loading) {
                 component = <CircularProgressCenter />;
-              } else if (!cms.canAccessMainView) {
+              } else if (!props.context.authController.user) {
                 component = (
                   <FirebaseLoginView
                     allowSkipLogin={false}
