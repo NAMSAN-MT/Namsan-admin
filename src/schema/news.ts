@@ -24,7 +24,7 @@ const News = buildCollection<TNews>({
     objectID: {
       name: 'objectID',
       description: '',
-      validation: { required: true },
+      validation: { required: false },
       dataType: 'string',
     },
     title: {
