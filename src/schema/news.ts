@@ -21,6 +21,12 @@ const News = buildCollection<TNews>({
   }),
   customId: false,
   properties: {
+    objectID: {
+      name: 'objectID',
+      description: '',
+      validation: { required: true },
+      dataType: 'string',
+    },
     title: {
       name: '제목',
       description: '',
