@@ -93,9 +93,13 @@ const News = buildCollection<TNews>({
     memberId: {
       name: '멤버아이디',
       description: '',
-      path: 'members',
-      previewProperties: ['id'],
-      dataType: 'reference',
+      dataType: 'array',
+      of: buildProperty({
+        dataType: 'reference',
+        description: '',
+        path: 'members',
+        previewProperties: ['id'],
+      }),
     },
   },
 });
