@@ -78,7 +78,6 @@ const News = buildCollection<TNews>({
     summary: {
       name: '요약',
       description: '',
-      validation: { required: true },
       dataType: 'string',
       markdown: true,
     },
