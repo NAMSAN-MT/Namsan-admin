@@ -36,7 +36,6 @@ const News = buildCollection<TNews>({
     content: {
       name: '내용',
       description: '',
-      validation: { required: true },
       dataType: 'string',
       markdown: true,
     },
@@ -62,7 +61,6 @@ const News = buildCollection<TNews>({
     originalLink: {
       name: '원본링크',
       description: '',
-      validation: { required: true },
       dataType: 'string',
     },
     imagePath: buildProperty({
