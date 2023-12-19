@@ -22,9 +22,11 @@ import Members from './schema/members';
 import UseCms from './hooks/useCms';
 import News from './schema/news';
 import { db } from './api/firebase';
+import { useState } from 'react';
 
 export default function App() {
   const cms = UseCms();
+  const [isWorking, setIsWorking] = useState(false);
 
   if (cms.configError) {
     return <div> {cms.configError} </div>;
@@ -44,7 +46,36 @@ export default function App() {
     return <CircularProgressCenter />;
   }
 
+  const checkIsGitActionWorking = async () => {
+    const url = 'https://api.github.com/repos/NAMSAN-MT/Namsan/actions/runs';
+    const result = await db.collection('config').get();
+    const githubPAT = result.docs[0].data().WEBHOOK_TOKEN;
+    try {
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: 'token ' + githubPAT,
+        },
+      });
+
+      const data = await res.json();
+
+      const workflow = data.workflow_runs[0];
+      if (workflow.status === 'in_progress') {
+        alert('현재 배포가 진행중입니다. 잠시 후 다시 시도해주세요.');
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      alert('Get info failed');
+      console.error(error);
+    }
+  };
+
   const handleDeployment = async () => {
+    if (await checkIsGitActionWorking()) return;
     if (confirm('배포를 하시겠습니까?')) {
       const url = 'https://api.github.com/repos/NAMSAN-MT/Namsan/dispatches';
       const result = await db.collection('config').get();
@@ -53,13 +84,17 @@ export default function App() {
         await fetch(url, {
           method: 'POST',
           headers: {
-            Accept: 'application/vnd.github.v3+json',
+            Accept: 'application/vnd.github+json',
             Authorization: 'token ' + githubPAT,
           },
           body: JSON.stringify({
             event_type: 'TRIGGER_DEPLOYMENT',
           }),
         });
+        setIsWorking(true);
+        setTimeout(() => {
+          setIsWorking(false);
+        }, 60000);
       } catch (error) {
         alert('Deploy failed');
         console.error(error);
@@ -121,7 +156,9 @@ export default function App() {
                           borderRadius: '7px',
                           fontWeight: 'bold',
                           padding: '10px 30px',
+                          opacity: isWorking ? 0.5 : 1,
                         }}
+                        disabled={isWorking}
                         onClick={handleDeployment}
                       >
                         Deploy
