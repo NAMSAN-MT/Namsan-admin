@@ -86,6 +86,18 @@ const Members = buildCollection<TMembers>({
         validation: { required: true },
       }),
     },
+    imagePath: buildProperty({
+      name: '이미지',
+      dataType: 'string',
+      description: '',
+      storage: {
+        storagePath: 'members',
+        acceptedFiles: ['members/*'],
+        metadata: {
+          cacheControl: 'max-age=1000000',
+        },
+      },
+    }),
     bgImagePath: buildProperty({
       name: '배경이미지',
       dataType: 'string',
