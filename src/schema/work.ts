@@ -90,6 +90,10 @@ const Work = buildCollection<TWork>({
       description: '',
       validation: { required: true },
       dataType: 'string',
+      enumValues: {
+        ko: 'ko',
+        en: 'en',
+      },
     },
     categoryId: {
       name: '카테고리아이디',
