@@ -41,6 +41,7 @@ const Members = buildCollection<TMembers>({
       description: '',
       validation: { required: true },
       dataType: 'string',
+      disabled: { hidden: true },
     },
     order: {
       name: '순서',
@@ -200,6 +201,10 @@ const Members = buildCollection<TMembers>({
       description: '',
       validation: { required: true },
       dataType: 'string',
+      enumValues: {
+        ko: 'ko',
+        en: 'en',
+      },
     },
   },
 });

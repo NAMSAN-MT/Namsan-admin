@@ -26,6 +26,7 @@ const News = buildCollection<TNews>({
       description: '',
       validation: { required: false },
       dataType: 'string',
+      disabled: { hidden: true },
     },
     title: {
       name: '제목',
@@ -44,6 +45,10 @@ const News = buildCollection<TNews>({
       description: '',
       validation: { required: true },
       dataType: 'string',
+      enumValues: {
+        media: 'media',
+        recent: 'recent',
+      },
     },
     agency: {
       name: '기관',
