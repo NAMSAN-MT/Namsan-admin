@@ -7,6 +7,13 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    # action-hosting-deploy 는 커밋에 체크런을 만들고 프리뷰 URL 을 PR 코멘트로 남긴다.
+    # permissions 블록이 없으면 repoToken 이 읽기전용으로 내려와
+    # POST /check-runs 가 "Resource not accessible by integration" (403) 으로 실패한다.
+    permissions:
+      checks: write # 체크런 생성 — 실제 403 이 났던 지점
+      contents: read # actions/checkout
+      pull-requests: write # 프리뷰 URL 코멘트
     steps:
       - uses: actions/checkout@v3
       - name: Generate Environment Variables File for Production
