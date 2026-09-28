@@ -1,4 +1,5 @@
 import { buildCollection, buildProperty } from 'firecms';
+import { withMemberId } from './memberId';
 
 type TEducations = {
   value: string;
@@ -35,11 +36,21 @@ const Members = buildCollection<TMembers>({
     delete: true,
   }),
   customId: false,
+  callbacks: {
+    onPreSave: ({
+      entityId,
+      values,
+    }: {
+      entityId?: string;
+      values: Partial<TMembers>;
+    }) => withMemberId(values, entityId),
+  },
   properties: {
     id: {
       name: '유니크아이디 (자동생성된 id와 동일하게 사용)',
       description: '',
-      validation: { required: true },
+      // 숨김 필드라 required 를 걸면 신규 등록 시 채울 방법이 없어 저장이 막힌다.
+      // 값은 onPreSave 에서 문서 ID 로 채운다.
       dataType: 'string',
       disabled: { hidden: true },
     },
